@@ -9,8 +9,18 @@ function! s:add_point(s, l)
   return r
 endfunction
 
+function! s:detect_vimrc()
+  if has('win32') || has('win64')
+    let vimrc = fnamemodify(expand('~/_vimrc'), ':p')
+    if filereadable(vimrc)
+      return vimrc
+    endif
+  endif
+  return fnamemodify(expand('~/.vimrc'), ':p')
+endfunction
+
 function! s:benchvimrc()
-  let vimrc = fnamemodify(expand(has('win32') || has('win64') ? '~/_vimrc' : '~/.vimrc'), ':p')
+  let vimrc = s:detect_vimrc()
   let g:bvimrc_l = readfile(vimrc, 1)
   call add(g:bvimrc_l, "echo ''")
   let tmp = tempname()

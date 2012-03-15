@@ -22,17 +22,16 @@ function! s:benchvimrc()
     let g:bvimrc_c = 0
     exe 'so' tmp
     let l = map(range(1, len(g:bvimrc_l)-1),
-    \ 'printf("%05d %s: %s", v:val, has_key(g:bvimrc_t, v:val) ? g:bvimrc_t[v:val] : "          ", g:bvimrc_l[v:val-1])'
+    \ 'printf("%s %05d: %s", has_key(g:bvimrc_t, v:val) ? g:bvimrc_t[v:val] : "          ", v:val, g:bvimrc_l[v:val-1])'
     \)
     call writefile(l, tmp, 1)
     unlet g:bvimrc_c
     unlet g:bvimrc_l
     unlet g:bvimrc_t
     unlet g:bvimrc_s
-    silent new __BENCHVIMRC__
-    silent exe "0r" tmp
-    silent normal! Gddgg
-    setlocal nomodified nomodifiable
+    silent exe "split" tmp
+    silent file __BENCHVIMRC__
+    setlocal buftype=nofile filetype=vim
     silent! %foldopen
   finally
     call delete(tmp)

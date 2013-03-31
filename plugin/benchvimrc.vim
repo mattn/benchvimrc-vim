@@ -35,6 +35,7 @@ function! s:benchvimrc()
     \ 'printf("%s %05d: %s", has_key(g:bvimrc_t, v:val) ? g:bvimrc_t[v:val] : "          ", v:val, g:bvimrc_l[v:val-1])'
     \)
     call writefile(l, tmp, 1)
+    exe 'so' vimrc
     unlet g:bvimrc_c
     unlet g:bvimrc_l
     unlet g:bvimrc_t

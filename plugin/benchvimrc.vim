@@ -11,7 +11,7 @@ endfunction
 
 function! s:detect_vimrc()
   if has('win32') || has('win64')
-    let vimrc = fnamemodify(expand('~/_vimrc'), ':p')
+    let vimrc = filereadable($MYVIMRC) ? $MYVIMRC : fnamemodify(expand('~/_vimrc'), ':p')
     if filereadable(vimrc)
       return vimrc
     endif

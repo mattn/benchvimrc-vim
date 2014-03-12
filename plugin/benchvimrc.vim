@@ -19,8 +19,8 @@ function! s:detect_vimrc()
   return fnamemodify(expand('~/.vimrc'), ':p')
 endfunction
 
-function! s:benchvimrc()
-  let vimrc = s:detect_vimrc()
+function! s:benchvimrc(...)
+  let vimrc = a:0 == 0 ? s:detect_vimrc() : a:1
   let g:bvimrc_l = readfile(vimrc, 1)
   call add(g:bvimrc_l, "echo ''")
   let tmp = tempname()
@@ -49,4 +49,4 @@ function! s:benchvimrc()
   endtry
 endfunction
 
-command! -nargs=0 BenchVimrc call s:benchvimrc()
+command! -nargs=? -complete=file BenchVimrc call s:benchvimrc(<f-args>)
